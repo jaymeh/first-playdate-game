@@ -1,4 +1,3 @@
---- Using playdate-luacats written by notpeter licensed under the MIT license: https://github.com/notpeter/playdate-luacats
 ---@meta
 --- This file contains function stubs for autocompletion. DO NOT include it in your game.
 
@@ -3701,7 +3700,7 @@ function playdate.graphics.animation.blinker:update() end
 ---
 --- The following properties can be read or set directly, and have these defaults:
 ---
---- * delay : the value of delay, if passed, or 100ms (the delay before moving to the next frame)
+--- * interval : the value of interval, if passed, or 100ms (the elapsed time before advancing to the next imageTable frame)
 --- * startFrame : 1 (the value the object resets to when the loop completes)
 --- * endFrame : the number of images in imageTable if passed, or 1 (the last frame value in the loop)
 --- * frame : 1 (the current frame counter)
@@ -3710,11 +3709,11 @@ function playdate.graphics.animation.blinker:update() end
 --- * paused : false (paused loops don’t change their frame value)
 ---
 --- [Inside Playdate: playdate.graphics.animation.loop.new](https://sdk.play.date/Inside%20Playdate.html#f-graphics.animation.loop.new)
----@param delay? number
+---@param interval? number
 ---@param imageTable _ImageTable
 ---@param shouldLoop? boolean
 ---@return _AnimationLoop
-function playdate.graphics.animation.loop.new(delay, imageTable, shouldLoop) end
+function playdate.graphics.animation.loop.new(interval, imageTable, shouldLoop) end
 
 --- Draw’s the loop’s current image at *x*, *y*.
 ---
@@ -5494,6 +5493,12 @@ function playdate.graphics.image:transformedImage(xform) end
 
 --- Returns an image created by applying a VCR pause effect to the calling image.
 ---
+--- To add a VCR effect to a single image, call this function once on the source image; the function
+--- will return a distorted version of the source image. To add a VCR effect to a series of frames /
+--- video, call this function on every frame and display each returned image. (This function uses
+--- an internal random number to determine the appearance of the effect on each frame, so the effect
+--- will vary from frame to frame in a way that makes it appear like "live" paused video.)
+---
 --- [Inside Playdate: playdate.graphics.image:vcrPauseFilterImage](https://sdk.play.date/Inside%20Playdate.html#m-graphics.image.vcrPauseFilterImage)
 ---@return _Image
 function playdate.graphics.image:vcrPauseFilterImage() end
@@ -6037,8 +6042,10 @@ function playdate.graphics.setScreenClipRect(rect) end
 ---@return nil
 function playdate.graphics.setScreenClipRect(x, y, width, height) end
 
---- Sets the current stencil to the given image. If *tile* is set, the the stencil will be tiled; in
---- this case, the image width must be a multiple of 32 pixels.
+--- Sets the current stencil to the given image. While the stencil is active, drawing functions will
+--- only draw pixels where the stencil is white and nothing is drawn where the stencil is black. If
+--- *tile* is set, the the stencil will be tiled; in this case, the image width must be a multiple
+--- of 32 pixels.
 ---
 --- Equivalent to `playdate->graphics->setStencilImage()` in the C API.
 ---
@@ -7257,9 +7264,11 @@ function playdate.graphics.sprite:setScale(scale, yScale) end
 ---@return nil
 function playdate.graphics.sprite:setSize(width, height) end
 
---- Specifies a stencil image to be set on the frame buffer before the sprite is drawn. If *tile*
---- is set, the the stencil will be tiled; in this case, the image width must be a multiple of 32
---- pixels.
+--- Specifies a stencil image to be set before the sprite is drawn. As with
+--- playdate.graphics.setStencilImage(), the sprite pixels will be drawn where the stencil is white
+--- and nothing drawn where the stencil is black. Note that the stencil is attached to the frame
+--- buffer (i.e., the screen), not the sprite—it does not move along with the sprite. If *tile* is
+--- set, the stencil will be tiled; in this case, the image width must be a multiple of 32 pixels.
 ---
 --- [Inside Playdate: playdate.graphics.sprite:setStencilImage](https://sdk.play.date/Inside%20Playdate.html#m-graphics.sprite.setStencilImage)
 ---@param stencil _Image
@@ -7412,7 +7421,7 @@ function playdate.graphics.sprite:updatesEnabled() end
 ---@return _TileMap
 function playdate.graphics.tilemap.new() end
 
---- Draws the tile map at screen coordinate (*x*, *y*).
+--- Draws the tilemap at screen coordinate (*x*, *y*).
 ---
 --- *sourceRect*, if specified, will cause only the part of the tilemap within sourceRect
 --- to be drawn. *sourceRect* should be relative to the tilemap’s bounds and can be a
@@ -7425,7 +7434,7 @@ function playdate.graphics.tilemap.new() end
 ---@return nil
 function playdate.graphics.tilemap:draw(x, y, sourceRect) end
 
---- Draws the tilemap ignoring the currently-set `drawOffset`.
+--- Draws the tilemap ignoring the currently set `drawOffset`.
 ---
 --- [Inside Playdate: playdate.graphics.tilemap:drawIgnoringOffset](https://sdk.play.date/Inside%20Playdate.html#m-graphics.tilemap.drawIgnoringOffset)
 ---@param x integer
@@ -7463,12 +7472,16 @@ function playdate.graphics.tilemap:getCollisionRects(emptyIDs) end
 --- Returns the size of the tilemap in pixels; that is, the size of the image multiplied by the
 --- number of rows and columns in the map. Returns multiple values (*width*, *height*).
 ---
+--- The tilemap size in pixels is determined by the tile size of the imagetable it is referencing,
+--- and the width of the tilemap set via :setTiles() or :setSize(). It is not otherwise
+--- configurable.
+---
 --- [Inside Playdate: playdate.graphics.tilemap:getPixelSize](https://sdk.play.date/Inside%20Playdate.html#m-graphics.tilemap.getPixelSize)
 ---@return integer width
 ---@return integer height
 function playdate.graphics.tilemap:getPixelSize() end
 
---- Returns the size of the tile map, in tiles, as a pair, (*width*, *height*).
+--- Returns the size of the tilemap, in tiles, as a pair, (*width*, *height*).
 ---
 --- [Inside Playdate: playdate.graphics.tilemap:getSize](https://sdk.play.date/Inside%20Playdate.html#m-graphics.tilemap.getSize)
 ---@return integer width
@@ -7487,7 +7500,10 @@ function playdate.graphics.tilemap:getSize() end
 ---@return number?
 function playdate.graphics.tilemap:getTileAtPosition(x, y) end
 
---- Returns multiple values (*width*, *height*), the pixel width and height of an individual tile.
+--- Returns two values (*width*, *height*), the pixel width and height of an individual tile.
+---
+--- These values are determined by the tile size of the associated imagetable and are not otherwise
+--- configurable.
 ---
 --- [Inside Playdate: playdate.graphics.tilemap:getTileSize](https://sdk.play.date/Inside%20Playdate.html#m-graphics.tilemap.getTileSize)
 ---@return integer width
@@ -7499,7 +7515,7 @@ function playdate.graphics.tilemap:getTileSize() end
 --- --- *data* is a flat, one-dimensional array-like table containing index values to the tilemap’s
 --- imagetable.
 --- ---
---- ---  *width* is the width of the tile map, in number of tiles.
+--- ---  *width* is the width of the tilemap, in number of tiles.
 ---
 --- [Inside Playdate: playdate.graphics.tilemap:getTiles](https://sdk.play.date/Inside%20Playdate.html#m-graphics.tilemap.getTiles)
 ---@return integer[] data
@@ -7515,6 +7531,8 @@ function playdate.graphics.tilemap:setImageTable(table) end
 
 --- Sets the tilemap’s width and height, in number of tiles.
 ---
+--- The tilemap’s width can also be configured in a call to :setTiles().
+---
 --- [Inside Playdate: playdate.graphics.tilemap:setSize](https://sdk.play.date/Inside%20Playdate.html#m-graphics.tilemap.setSize)
 ---@param width integer
 ---@param height integer
@@ -7523,6 +7541,9 @@ function playdate.graphics.tilemap:setSize(width, height) end
 
 --- Sets the index of the tile at tilemap position (*x*, *y*). *index* is the (1-based) index of the
 --- image in the tilemap’s playdate.graphics.imagetable.
+---
+--- This function is especially useful for making small adjustments to existing tilemaps&nbsp;—
+--- &nbsp;say, if the state of a tile changes during gameplay.
 ---
 --- Tilemaps and imagetables, like Lua arrays, are 1-based, not 0-based.
 --- `tilemap:setTileAtPosition(1, 1, 2)` will set the index of the tile in the top-leftmost position
@@ -7537,6 +7558,9 @@ function playdate.graphics.tilemap:setTileAtPosition(x, y, index) end
 
 --- Sets the tilemap’s width to *width*, then populates the tilemap with *data*, which should be a
 --- flat, one-dimensional array-like table containing index values to the tilemap’s imagetable.
+---
+--- This function is especially useful for configuring a large number of tiles at once — say when
+--- first loading a game level.
 ---
 --- [Inside Playdate: playdate.graphics.tilemap:setTiles](https://sdk.play.date/Inside%20Playdate.html#m-graphics.tilemap.setTiles)
 ---@param data integer[]
@@ -7899,6 +7923,11 @@ function playdate.menu:removeMenuItem(menuItem) end
 function playdate.mirrorEnded() end
 
 --- Called when the device is connected to Mirror.
+---
+--- In rare situations, Mirror may have trouble keeping up with games running at a high framerate
+--- (> 40 fps). If you find this consistently happens to your game, you can optionally use these
+--- callbacks to lower the amount of computation or drawing you do so as to give more time to
+--- Playdate OS on each frame, improving your user’s experience while playing your game via Mirror.
 ---
 --- [Inside Playdate: playdate.mirrorStarted](https://sdk.play.date/Inside%20Playdate.html#c-mirrorStarted)
 ---@return nil
@@ -9298,9 +9327,9 @@ function playdate.sound.fileplayer:setRate(rate) end
 ---@return nil
 function playdate.sound.fileplayer:setRateMod(signal) end
 
---- By default, the fileplayer stops playback if it can’t provide data fast enough. Setting the flag
---- to *false* tells the fileplayer to restart playback (after an audible stutter) as soon as data
---- is available.
+--- By default, if the fileplayer runs out of data it does not stop playback but instead restarts
+--- (after an audible stutter) as soon as data becomes available. Setting the flag to *true* changes
+--- this behavior so that it stops playback and calls the fileplayer’s finish callback, if set.
 ---
 --- [Inside Playdate: playdate.sound.fileplayer:setStopOnUnderrun](https://sdk.play.date/Inside%20Playdate.html#m-sound.fileplayer.setStopOnUnderrun)
 ---@param flag boolean
@@ -10421,7 +10450,7 @@ function playdate.sound.synth:setWaveform(waveform) end
 --- `ysize` gives the number of cells in the y direction.
 ---
 --- The synth’s "position" in the wavetable is set manually with setParameter() or automated with
---- setParameterModulator(). In some cases it’s easier to use a parameter that matches the waveform
+--- setParameterMod(). In some cases it’s easier to use a parameter that matches the waveform
 --- position in the table, in others (notably when using envelopes and lfos) it’s more convenient to
 --- use a 0-1 scale, so there’s some redundancy here. Parameters are
 ---
