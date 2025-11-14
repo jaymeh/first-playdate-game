@@ -1,6 +1,4 @@
 # Tamagotchi Pets
-
-## Premise
 You hatch, train and battle pets in an old school digimon/tamogotchi type game. This is a base idea and can be adopted to things like horse racing games and the like.
 
 ## Considerations
@@ -22,3 +20,6 @@ Cutesy small graphics showing off the pet. May need a lot of animations to keep 
 
 ## Challenges/Considerations
 As more pets are added/built balancing becomes a challenge and as the amount of pets grows so does the complexity and challenges.
+
+## Interest Score
+3/5
