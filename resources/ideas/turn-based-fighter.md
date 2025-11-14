@@ -1,14 +1,14 @@
 # Turn Based Fighter
 The player takes turns against the AI picking different moves to use against them. These can unleash attacks with various degrees of power and speed, which target specific zones the opponent may be located. Players can also choose to defend or heal themselves during their turn. 
 
-## Features
+## Features
 - Charge up attacks with the crank
 - Multiple characters to choose from
 - Leveling up of characters
 - Unlocking new moves
 - Simple AI for enemy players
 
-## Considerations
+## Considerations
 Has plenty of room to grow, you can introduce new moves and character sets and the ability to level up and unlock things as you progress. There's space for some kind of story aspect to it and it ensures that we just draw the full screen with no need for tiling etc. Might work well given the constraints of the device.
 
 ## Skill Level

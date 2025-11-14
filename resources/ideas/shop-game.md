@@ -3,7 +3,7 @@ Player runs a small shop where they can buy and sell items to customers. The pla
 
 Theres a concept of mining and gathering resources to sell to any customers. This will help them save more but at the cost of time and effort.
 
-## Features
+## Features
 - Buying and selling items
 - Managing inventory
 - Pricing strategy to maximize profit

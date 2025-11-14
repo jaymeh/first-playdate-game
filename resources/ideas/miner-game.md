@@ -3,7 +3,15 @@ Simple mining game where the player controls a character that digs through the g
 
 Resources can be sold for coins and the player can upgrade their equipment to dig faster or carry more resources.
 
-## Considerations
+## Features
+- 2D side-scrolling environment
+- Player controls for digging and moving
+- Various types of resources to collect (gold, gems, coal)
+- Obstacles to avoid (rocks, traps)
+- Upgrade system for equipment (pickaxe, backpack)
+- Simple score system based on resources collected
+
+## Considerations
 Simple 2D graphics with a set level layout to keep it simple. Focus on core mechanics of digging, collecting resources, and upgrading equipment.
 
 ## Skill Level

@@ -3,7 +3,7 @@ A game I loved playing was Space Miner, which was a take on the classic Asteroid
 
 Once things were mined the player could return to a mothership to sell their resources and upgrade their ship with better weapons, shields, and engines. Then do it all over again.
 
-## Features
+## Features
 - 2D space environment with wrap-around screen
 - Player controls a spaceship that can rotate, thrust, and shoot
 - Asteroids of varying sizes that break apart when shot
@@ -12,7 +12,7 @@ Once things were mined the player could return to a mothership to sell their res
 - Enemy ships that attack the player
 - Simple upgrade system for ship improvements
 
-## Considerations
+## Considerations
 The core mechanics of movement and shooting are straightforward, but implementing the resource collection, upgrade system, and enemy AI will require more advanced programming skills.
 
 ## Skill Level

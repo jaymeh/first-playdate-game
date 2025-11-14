@@ -3,14 +3,14 @@ The player runs a small farm where they can plant, grow, and harvest crops. They
 
 The game can include seasons, weather effects, and various types of crops and animals to keep the gameplay engaging.
 
-## Features
+## Features
 - Planting and harvesting crops
 - Raising animals (cows, chickens, etc.)
 - Selling produce at a market
 - Upgrading farm equipment and buildings
 - Seasonal changes affecting crop growth
 
-## Considerations
+## Considerations
 This is a relaxing and casual game that can be played in short sessions. The art style should be charming and inviting, with a focus on the farm environment and characters. The game mechanics should be simple to understand but offer depth through upgrades and variety in crops and animals.
 
 This game type has been done before quite frequently and I can spot several existing Playdate games that do similar things. The challenge will be to make it feel fresh and engaging within the constraints of the Playdate hardware.
