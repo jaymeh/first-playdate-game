@@ -1,9 +1,12 @@
 # Turn Based Fighter
-I remember back in the days, playing the DBZ Game on the Cartoon Network website. This worked by having playr pick turns against the AI for which moves to use. These were picking a move that allowed you to move to a location, power yourself up and attack another player.
+The player takes turns against the AI picking different moves to use against them. These can unleash attacks with various degrees of power and speed, which target specific zones the opponent may be located. Players can also choose to defend or heal themselves during their turn. 
 
-It was quite a novel concept at the time but could work quite nicely on the playdate and tie into using the crank etc to charge up energy and win against the enemy.
-
-Theres a lot of room for iteration, expansion and movesets. Might be nice to include gatcha mechcanics for improved moves and player levels/hearts.
+## Features
+- Charge up attacks with the crank
+- Multiple characters to choose from
+- Leveling up of characters
+- Unlocking new moves
+- Simple AI for enemy players
 
 ## Considerations
 Has plenty of room to grow, you can introduce new moves and character sets and the ability to level up and unlock things as you progress. There's space for some kind of story aspect to it and it ensures that we just draw the full screen with no need for tiling etc. Might work well given the constraints of the device.
